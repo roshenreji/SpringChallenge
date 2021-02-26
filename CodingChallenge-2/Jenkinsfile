@@ -3,6 +3,10 @@ pipeline {
      triggers{
          pollSCM('* * * * *')
      }
+     environment{
+         AWS_REGION='us-west-2'
+         AWS_DEFAULT_REGION='us-west-2'
+     }
     tools{
         maven 'maven'
         jdk 'Jdk'
@@ -109,6 +113,14 @@ pipeline {
                 steps{
                     archiveArtifacts artifacts: 'CodingChallenge-2/target/*.jar', followSymlinks: false
                  }
+            }
+            stage('Deploy to S3 Bucket'){
+                steps{
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: '206083f1-72bc-49d8-bc65-3d1a3dce8f83', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        s3Upload(file:'sportApplication-0.0.1-SNAPSHOT.jar', bucket:'myassignment2021', path:'sampleFile/sportApplication-0.0.1-SNAPSHOT.jar')
+    // some block
+}
+                }
             }      
         /* stage('deploy to artifactory')
          {
