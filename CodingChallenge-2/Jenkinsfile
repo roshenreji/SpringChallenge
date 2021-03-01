@@ -67,7 +67,7 @@ pipeline {
             stage('Sonar Analysis'){
             steps{
                  dir("C:/Users/roshe/.jenkins/workspace/AwsChallenge/CodingChallenge-2"){
-                    withSonarQubeEnv('Sonar'){
+                    withSonarQubeEnv('SonarCloud'){
                         withMaven(maven:'maven'){
                             sh 'mvn sonar:sonar'
                         }
